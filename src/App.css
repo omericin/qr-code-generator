@@ -54,22 +54,69 @@ h1 {
   box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.25);
 }
 
-.toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  align-self: flex-start;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.8);
-  cursor: pointer;
-  user-select: none;
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.toggle input {
-  width: 1rem;
-  height: 1rem;
-  accent-color: #6c63ff;
+.tab {
+  flex: 1;
+  padding: 0.55rem 0.8rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.tab:hover {
+  color: white;
+}
+
+.tab.active {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.tab-panel {
+  padding: 0.25rem 0 0.25rem;
+  min-height: 2.4rem;
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  padding: 0.45rem 0.8rem;
+  font-size: 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.chip:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.chip.active {
+  background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+  border-color: transparent;
+  color: white;
 }
 
 .actions {
@@ -120,11 +167,17 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 260px;
+  min-height: 320px;
   padding: 1rem;
   background: rgba(0, 0, 0, 0.25);
   border-radius: 14px;
   border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.qr-area svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 .placeholder {

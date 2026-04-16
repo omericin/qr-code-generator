@@ -1,11 +1,37 @@
 import { useState } from 'react'
 import QRCode from './QRCode.jsx'
+import { FRAMES, FRAME_ORDER } from './frames.jsx'
 import './App.css'
+
+const DOT_SHAPES = [
+  { id: 'square', label: 'Kare' },
+  { id: 'circle', label: 'Yuvarlak' },
+  { id: 'pixel', label: 'Piksel' },
+  { id: 'rounded', label: 'Yumuşak' },
+  { id: 'heart', label: 'Kalp' },
+  { id: 'star', label: 'Yıldız' },
+  { id: 'kite', label: 'Deltoit' },
+]
+
+const FINDER_SHAPES = [
+  { id: 'square', label: 'Kare' },
+  { id: 'rounded', label: 'Yumuşak' },
+  { id: 'circle', label: 'Yuvarlak' },
+]
+
+const TABS = [
+  { id: 'dots', label: 'Noktalar' },
+  { id: 'corners', label: 'Köşeler' },
+  { id: 'frame', label: 'Çerçeve' },
+]
 
 function App() {
   const [text, setText] = useState('')
   const [value, setValue] = useState('')
-  const [roundDots, setRoundDots] = useState(false)
+  const [tab, setTab] = useState('dots')
+  const [shape, setShape] = useState('square')
+  const [finderShape, setFinderShape] = useState('square')
+  const [frame, setFrame] = useState('none')
 
   const handleGenerate = (e) => {
     e.preventDefault()
@@ -34,14 +60,73 @@ function App() {
             onChange={(e) => setText(e.target.value)}
           />
 
-          <label className="toggle">
-            <input
-              type="checkbox"
-              checked={roundDots}
-              onChange={(e) => setRoundDots(e.target.checked)}
-            />
-            <span>Yuvarlak noktalar</span>
-          </label>
+          <div className="tabs" role="tablist">
+            {TABS.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                role="tab"
+                aria-selected={tab === t.id}
+                className={`tab ${tab === t.id ? 'active' : ''}`}
+                onClick={() => setTab(t.id)}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="tab-panel">
+            {tab === 'dots' && (
+              <div className="chip-group" role="radiogroup" aria-label="Nokta şekli">
+                {DOT_SHAPES.map((s) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    role="radio"
+                    aria-checked={shape === s.id}
+                    className={`chip ${shape === s.id ? 'active' : ''}`}
+                    onClick={() => setShape(s.id)}
+                  >
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {tab === 'corners' && (
+              <div className="chip-group" role="radiogroup" aria-label="Köşe şekli">
+                {FINDER_SHAPES.map((s) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    role="radio"
+                    aria-checked={finderShape === s.id}
+                    className={`chip ${finderShape === s.id ? 'active' : ''}`}
+                    onClick={() => setFinderShape(s.id)}
+                  >
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {tab === 'frame' && (
+              <div className="chip-group" role="radiogroup" aria-label="Çerçeve tasarımı">
+                {FRAME_ORDER.map((id) => (
+                  <button
+                    key={id}
+                    type="button"
+                    role="radio"
+                    aria-checked={frame === id}
+                    className={`chip ${frame === id ? 'active' : ''}`}
+                    onClick={() => setFrame(id)}
+                  >
+                    {FRAMES[id].label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
 
           <div className="actions">
             <button type="submit" className="btn primary" disabled={!text.trim()}>
@@ -57,9 +142,11 @@ function App() {
           {value ? (
             <QRCode
               value={value}
-              size={240}
+              size={280}
               level="H"
-              shape={roundDots ? 'circle' : 'square'}
+              shape={shape}
+              finderShape={finderShape}
+              frame={frame}
               bgColor="#ffffff"
               fgColor="#1a1a1a"
             />
