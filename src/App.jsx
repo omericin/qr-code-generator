@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { QRCodeCanvas } from 'qrcode.react'
+import QRCode from './QRCode.jsx'
 import './App.css'
 
 function App() {
   const [text, setText] = useState('')
   const [value, setValue] = useState('')
+  const [roundDots, setRoundDots] = useState(false)
 
   const handleGenerate = (e) => {
     e.preventDefault()
@@ -32,6 +33,16 @@ function App() {
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
+
+          <label className="toggle">
+            <input
+              type="checkbox"
+              checked={roundDots}
+              onChange={(e) => setRoundDots(e.target.checked)}
+            />
+            <span>Yuvarlak noktalar</span>
+          </label>
+
           <div className="actions">
             <button type="submit" className="btn primary" disabled={!text.trim()}>
               Generate
@@ -44,11 +55,11 @@ function App() {
 
         <div className="qr-area">
           {value ? (
-            <QRCodeCanvas
+            <QRCode
               value={value}
               size={240}
               level="H"
-              includeMargin
+              shape={roundDots ? 'circle' : 'square'}
               bgColor="#ffffff"
               fgColor="#1a1a1a"
             />
